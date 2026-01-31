@@ -9,3 +9,7 @@ dist
 
 # Keep .env.example for reference
 !.env.example
+
+# Campaign optimization logs (contains account-specific data)
+campaign-optimization-log.md
+*-optimization-log.md

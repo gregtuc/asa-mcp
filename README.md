@@ -1,22 +1,40 @@
-# Apple Search Ads MCP Server
+<div align="center">
 
-A Model Context Protocol (MCP) server for the Apple Search Ads Campaign Management API. This server enables AI assistants (like Claude in Cursor) to manage your Apple Search Ads campaigns, ad groups, keywords, and reports programmatically.
+# 🍎 Apple Search Ads MCP Server
 
-## Features
+[![MCP](https://img.shields.io/badge/MCP-Compatible-blue?style=flat-square&logo=anthropic)](https://modelcontextprotocol.io)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue?style=flat-square&logo=typescript)](https://www.typescriptlang.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-18+-green?style=flat-square&logo=node.js)](https://nodejs.org/)
+[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=flat-square&logo=docker)](https://www.docker.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow?style=flat-square)](https://opensource.org/licenses/MIT)
 
-- **Full Campaign Management**: Create, read, update, and delete campaigns
-- **Ad Group Management**: Configure ad groups with targeting dimensions (age, gender, device, location, daypart)
-- **Keyword Management**: Manage targeting keywords and negative keywords at campaign and ad group levels
-- **Reporting**: Generate performance reports at campaign, ad group, keyword, and search term levels
-- **OAuth 2.0 Authentication**: Secure JWT-based authentication with automatic token refresh
+**Connect your AI assistant to Apple Search Ads**
 
-## Prerequisites
+Manage campaigns, ad groups, keywords, and reports — all through natural language.
+
+[Getting Started](#quick-start) · [Available Tools](#available-tools) · [Usage Examples](#usage-examples) · [Troubleshooting](#troubleshooting)
+
+</div>
+
+---
+
+## ✨ Features
+
+| Feature | Description |
+|---------|-------------|
+| 📊 **Campaign Management** | Create, read, update, and delete campaigns |
+| 🎯 **Ad Group Targeting** | Configure age, gender, device, location, and daypart targeting |
+| 🔑 **Keyword Management** | Manage targeting keywords and negative keywords at all levels |
+| 📈 **Performance Reports** | Generate reports at campaign, ad group, keyword, and search term levels |
+| 🔐 **Secure Auth** | OAuth 2.0 JWT-based authentication with automatic token refresh |
+
+## 📋 Prerequisites
 
 - An [Apple Search Ads](https://searchads.apple.com) account (you need an app in the App Store to advertise)
 - Node.js 18+ **OR** Docker
 - OpenSSL (for generating keys)
 
-## Quick Start
+## 🚀 Quick Start
 
 ### Option A: Run with Node.js
 
@@ -37,9 +55,10 @@ npm run build
 docker compose up --build
 ```
 
-## Setup Guide
+## 🔧 Setup Guide
 
-### Step 1: Create an API User in Apple Search Ads
+<details>
+<summary><strong>Step 1: Create an API User in Apple Search Ads</strong></summary>
 
 Apple Search Ads requires a **separate API user** (not your main admin account) to access the API.
 
@@ -52,9 +71,22 @@ Apple Search Ads requires a **separate API user** (not your main admin account) 
    - **Role**: Check **API Account Manager**
 5. Click **Invite**
 
-### Step 2: Generate Your API Keys
+</details>
 
-Run these commands to generate your private and public keys:
+<details>
+<summary><strong>Step 2: Sign In as the API User</strong></summary>
+
+1. Open an **incognito/private browser window** (important - keeps your admin session separate!)
+2. Check your email for the invitation from Apple Search Ads
+3. Accept the invitation and set up the new API user account
+4. Sign in to [Apple Search Ads](https://searchads.apple.com) with the **new API user credentials**
+
+</details>
+
+<details>
+<summary><strong>Step 3: Generate Your API Keys</strong></summary>
+
+On your local machine, run these commands to generate your private and public keys:
 
 ```bash
 # Generate private key (keep this secret!)
@@ -67,11 +99,14 @@ openssl ec -in private-key.pem -pubout -out public-key.pem
 cat public-key.pem
 ```
 
-### Step 3: Upload Public Key to Apple Search Ads
+</details>
 
-1. Open an **incognito/private browser window** (important!)
-2. Sign in to [Apple Search Ads](https://searchads.apple.com) with your **new API user** (not admin)
-3. Go to **Account Settings** > **API**
+<details>
+<summary><strong>Step 4: Upload Public Key to Apple Search Ads</strong></summary>
+
+In the incognito window where you're signed in as the API user:
+
+1. Go to **Account Settings** > **API**
 4. Paste the entire contents of `public-key.pem` including:
    ```
    -----BEGIN PUBLIC KEY-----
@@ -84,7 +119,10 @@ cat public-key.pem
    - `teamId` (starts with `SEARCHADS.`)
    - `keyId` (a UUID)
 
-### Step 4: Find Your Organization ID
+</details>
+
+<details>
+<summary><strong>Step 5: Find Your Organization ID</strong></summary>
 
 Your `orgId` is in the URL when logged into Apple Search Ads:
 ```
@@ -93,7 +131,10 @@ https://app-ads.apple.com/cm/app/123456789/...
                               This is your orgId
 ```
 
-### Step 5: Configure Environment Variables
+</details>
+
+<details>
+<summary><strong>Step 6: Configure Environment Variables</strong></summary>
 
 ```bash
 cp .env.example .env
@@ -111,7 +152,10 @@ APPLE_ADS_ORG_ID=123456789
 
 **Important**: Use the absolute path to your private key file.
 
-### Step 6: Configure Cursor
+</details>
+
+<details>
+<summary><strong>Step 7: Configure Cursor</strong></summary>
 
 Add to your Cursor MCP settings file:
 
@@ -160,13 +204,18 @@ Add to your Cursor MCP settings file:
 }
 ```
 
-### Step 7: Restart Cursor
+</details>
+
+<details>
+<summary><strong>Step 8: Restart Cursor</strong></summary>
 
 Restart Cursor completely for the MCP server to load.
 
+</details>
+
 ---
 
-## Available Tools
+## 🛠️ Available Tools
 
 ### Account & Discovery
 
@@ -234,52 +283,65 @@ Restart Cursor completely for the MCP server to load.
 
 ---
 
-## Usage Examples
+## 💬 Usage Examples
 
 Once configured, you can ask Claude in Cursor to manage your campaigns:
 
-### Get Campaign Performance
-> "Show me how my campaigns performed last week"
+```
+📊 "Show me how my campaigns performed last week"
 
-### Create a Campaign
-> "Create a new campaign for my app (adamId: 123456789) targeting US and Canada with a $1000 budget"
+🚀 "Create a new campaign for my app (adamId: 123456789) targeting US and Canada with a $1000 budget"
 
-### Add Keywords
-> "Add these keywords to my campaign: fitness app, workout tracker, exercise planner"
+🔑 "Add these keywords to my campaign: fitness app, workout tracker, exercise planner"
 
-### Pause Underperforming Keywords
-> "Find keywords with CTR below 1% and pause them"
+⏸️ "Find keywords with CTR below 1% and pause them"
 
-### Get Search Term Insights
-> "Show me the search terms report for my campaign to find new keyword opportunities"
+🔍 "Show me the search terms report for my campaign to find new keyword opportunities"
+```
 
 ---
 
-## Troubleshooting
+## 🐛 Troubleshooting
 
-### "API credentials not configured"
+<details>
+<summary><strong>"API credentials not configured"</strong></summary>
+
 - Make sure all 5 environment variables are set
 - Check that `APPLE_ADS_PRIVATE_KEY_PATH` is an absolute path
 - Restart Cursor after changing the MCP config
 
-### "Failed to fetch access token"
+</details>
+
+<details>
+<summary><strong>"Failed to fetch access token"</strong></summary>
+
 - Verify your private key matches the public key you uploaded
 - Check that `clientId`, `teamId`, and `keyId` are correct
 - Make sure the API user invitation was accepted
 
-### "Forbidden" or permission errors
+</details>
+
+<details>
+<summary><strong>"Forbidden" or permission errors</strong></summary>
+
 - Verify your API user has "API Account Manager" role
 - Check that `orgId` is correct (from the URL)
 - Try `get_user_acl` to see what orgs you have access to
 
-### "Invalid public key" when uploading
+</details>
+
+<details>
+<summary><strong>"Invalid public key" when uploading</strong></summary>
+
 - Make sure you're copying the entire key including `-----BEGIN PUBLIC KEY-----` and `-----END PUBLIC KEY-----`
 - Try using Safari if other browsers give errors
 - Disable ad blockers
 
+</details>
+
 ---
 
-## Docker Commands Reference
+## 🐳 Docker Commands Reference
 
 ```bash
 # Build the image
@@ -305,23 +367,38 @@ docker compose down
 
 ---
 
-## API Reference
+## 📚 API Reference
 
 This MCP server implements the [Apple Search Ads Campaign Management API](https://developer.apple.com/documentation/apple_ads).
 
-- [Campaign Management API Overview](https://ads.apple.com/app-store/help/campaigns/0022-use-the-campaign-management-api)
-- [Apple Developer Documentation](https://developer.apple.com/documentation/apple_ads)
+| Resource | Link |
+|----------|------|
+| Campaign Management API Overview | [Apple Ads Help](https://ads.apple.com/app-store/help/campaigns/0022-use-the-campaign-management-api) |
+| Apple Developer Documentation | [Apple Developer](https://developer.apple.com/documentation/apple_ads) |
+| Model Context Protocol | [MCP Docs](https://modelcontextprotocol.io) |
 
 ---
 
-## Security Notes
+## 🔒 Security Notes
 
-- **Never commit** your `.env` file or `private-key.pem` to git
+> **Warning**
+> Never commit your `.env` file or `private-key.pem` to git!
+
 - The `.gitignore` is configured to exclude these files
-- Keep your private key secure - if compromised, regenerate both keys and re-upload
+- Keep your private key secure — if compromised, regenerate both keys and re-upload
 
 ---
 
-## License
+## 📄 License
 
 MIT
+
+---
+
+<div align="center">
+
+**[⬆ Back to Top](#-apple-search-ads-mcp-server)**
+
+Made with ❤️ for the MCP community
+
+</div>
