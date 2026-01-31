@@ -1,0 +1,14 @@
+services:
+  apple-search-ads-mcp:
+    build: .
+    container_name: apple-search-ads-mcp
+    environment:
+      - APPLE_ADS_CLIENT_ID=${APPLE_ADS_CLIENT_ID}
+      - APPLE_ADS_TEAM_ID=${APPLE_ADS_TEAM_ID}
+      - APPLE_ADS_KEY_ID=${APPLE_ADS_KEY_ID}
+      - APPLE_ADS_PRIVATE_KEY_PATH=/keys/private-key.pem
+      - APPLE_ADS_ORG_ID=${APPLE_ADS_ORG_ID}
+    volumes:
+      - ./private-key.pem:/keys/private-key.pem:ro
+    stdin_open: true
+    tty: true

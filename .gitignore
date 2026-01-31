@@ -1,0 +1,11 @@
+node_modules
+dist
+*.pem
+*.key
+.env
+.env.local
+.env.development
+.env.production
+
+# Keep .env.example for reference
+!.env.example
