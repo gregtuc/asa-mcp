@@ -3,6 +3,7 @@ dist
 *.pem
 *.key
 .env
+.mcp.json
 .env.local
 .env.development
 .env.production
@@ -13,3 +14,5 @@ dist
 # Campaign optimization logs (contains account-specific data)
 campaign-optimization-log.md
 *-optimization-log.md
+CLAUDE.md
+changelog.jsonl
